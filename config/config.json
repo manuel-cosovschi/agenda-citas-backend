@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "root",
+    "password": "cedetalvo1",      
+    "database": "agenda_citas", 
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "agenda_citas_test",  
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "agenda_citas_prod",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
+
