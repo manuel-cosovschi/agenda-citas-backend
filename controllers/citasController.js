@@ -4,16 +4,17 @@ const { oauth2Client } = require('../config/googleAuth');
 const twilio = require('twilio');
 const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
-// Función para crear una cita
 exports.crearCita = async (req, res) => {
     try {
-        const { cliente, propiedad, fecha, hora, agenteId } = req.body;
-        const nuevaCita = await Cita.create({ cliente, propiedad, fecha, hora, agenteId });
-        res.status(201).json(nuevaCita);
+      const { cliente, propiedad, fecha, hora, agenteId, clienteTelefono } = req.body;
+      const nuevaCita = await Cita.create({ cliente, propiedad, fecha, hora, agenteId, clienteTelefono });
+      await exports.enviarSMS(nuevaCita); // Enviar SMS después de crear la cita
+      res.status(201).json(nuevaCita);
     } catch (error) {
-        res.status(500).json({ error: 'Error al crear la cita' });
+      res.status(500).json({ error: 'Error al crear la cita' });
     }
-};
+  };
+  
 
 // Función para obtener todas las citas
 exports.obtenerCitas = async (req, res) => {
