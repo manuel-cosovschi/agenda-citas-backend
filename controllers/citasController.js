@@ -1,6 +1,8 @@
 const Cita = require('../models').Cita;
 const { google } = require('googleapis');
 const { oauth2Client } = require('../config/googleAuth');
+const twilio = require('twilio');
+const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 // Función para crear una cita
 exports.crearCita = async (req, res) => {
@@ -94,5 +96,20 @@ exports.eliminarEvento = async (req, res) => {
         res.status(200).send('Evento eliminado correctamente');
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar el evento' });
+    }
+};
+
+// Función para enviar SMS
+const enviarSMS = async (cita) => {
+    const mensaje = `Recordatorio: Tiene una cita el ${cita.fecha} a las ${cita.hora} en la propiedad ${cita.propiedad}`;
+    try {
+        await client.messages.create({
+            body: mensaje,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: cita.clienteTelefono,
+        });
+        console.log('SMS enviado correctamente');
+    } catch (error) {
+        console.error('Error al enviar SMS:', error);
     }
 };

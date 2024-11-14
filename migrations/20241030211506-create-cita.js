@@ -24,6 +24,10 @@ module.exports = {
       agenteId: {
         type: Sequelize.INTEGER
       },
+      clienteTelefono: {  // Nuevo campo para el teléfono del cliente
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
